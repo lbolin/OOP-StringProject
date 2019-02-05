@@ -1,5 +1,4 @@
 ﻿  Source.cpp
-x:\lauren\computer science\comp 345\stringproject\stringproject\source.cpp(6): warning C4326: return type of 'main' should be 'int' instead of 'void'
   String.cpp
   Generating Code...
-  StringProject.vcxproj -> X:\Lauren\Computer Science\Comp 345\StringProject\Debug\StringProject.exe
+  StringProject.vcxproj -> \\Mac\Google Drive\Lauren\Computer Science\Comp 345\StringProject\Debug\StringProject.exe

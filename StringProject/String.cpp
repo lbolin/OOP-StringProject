@@ -2,8 +2,8 @@
 #include<string>
 #include<sstream>
 #include"String.h"
+//Authors Lauren and Quinn
 using namespace std;
-
 String::String()//Default 
 {
 	pString = NULL;
@@ -32,12 +32,10 @@ String::String(const String& newString)//Copy
 	pString = NULL;
 	set(newString.pString);
 }
-
 String::~String()
 {
 	destroy();
 }
-
 void String::destroy()
 {
 	if (pString != NULL)
@@ -46,7 +44,6 @@ void String::destroy()
 		pString = NULL;
 	}
 }
-
 void String::set(const char* const newString)
 {
 	if (newString != pString)
@@ -64,12 +61,10 @@ void String::set(const char* const newString)
 		}
 	}
 }
-
 void String::set(const String& newString)
 {
 	set(newString.pString);
 }
-
 void String::set(char c)
 {
 	destroy();
@@ -85,14 +80,12 @@ void String::set(int i)
 	pString = new char[MAX_LENGTH];
 	_itoa_s(i, pString, MAX_LENGTH, 10);
 }
-
-bool String::isEmpty()
+bool String::isEmpty() const
 {
 	//when pString is null the condition will short circuit
 	return (pString == NULL || strlen(pString) == 0);
 }
-
-void String::write(ostream& out)
+void String::write(ostream& out) const
 {
 	if (pString != NULL)
 	{
@@ -100,7 +93,7 @@ void String::write(ostream& out)
 	}
 }
 
-int String::length()
+int String::length() const
 {
 	int result = 0;
 	if (!isEmpty())
@@ -142,12 +135,15 @@ void String::prepend(String prefix)
 	set(result);
 }
 
-bool String::contains(String s)
+bool String::contains(String s) const
 {
 	bool result = false;
-	if (strstr(pString, s.pString) != NULL)
+	if (!(pString == NULL || s.pString == NULL))
 	{
-		result = true;
+		if (strstr(pString, s.pString) != NULL)
+		{
+			result = true;
+		}
 	}
 	return result;
 }
@@ -157,6 +153,10 @@ void String::insert(String insertString, int index)
 	String result;
 	String sBegin;
 	String sEnd;
+	if (index <= 0)
+	{
+		index = 0;
+	}
 	if (index <= length())
 	{
 		for (int i = 0; i < index; i++)
@@ -179,7 +179,7 @@ void String::insert(String insertString, int index)
 }
 
 
-String String::subString(int startIndex, int aLength)
+String String::subString(int startIndex, int aLength) const
 {
 	String result;
 
@@ -202,28 +202,32 @@ String String::subString(int startIndex, int aLength)
 	return result;
 }
 
-bool String::equals(String stringToCompare)
+bool String::equals(String stringToCompare) const
 {
 	bool result = false;
 
-	if (!(isEmpty() || stringToCompare.isEmpty()))
+	if (!isEmpty() && !stringToCompare.isEmpty())
 	{
 		if (strcmp(pString, stringToCompare.pString) == 0)
 		{
 			result = true;
 		}
 	}
+	else if (isEmpty() && stringToCompare.isEmpty())
+	{
+		result = true;
+	}
 
 	return result;
 }
 
-char String::at(int index)
+char String::at(int index) const
 {
 	char result = '\0';
 
 	if (pString != NULL)
 	{
-		if (index < length())
+		if (index < length() && index >= 0)
 		{
 			result = pString[index];
 		}
@@ -321,7 +325,7 @@ void String::trim()
 
 void String::replace(String stringToReplace, String replacementString)
 {
-	if (!isEmpty())
+	if (!isEmpty() && !stringToReplace.isEmpty() && !replacementString.isEmpty())
 	{
 		int indexOfStringToReplace = match(*this, stringToReplace);
 		while (indexOfStringToReplace != -1)
@@ -349,7 +353,7 @@ void String::remove(int startIndex, int aLength)
 	}
 }
 
-int String::match(String lookingIn, String lookingFor)
+int String::match(String lookingIn, String lookingFor) const
 {
 	int result = -1;
 	if (!(lookingFor.isEmpty() || lookingIn.isEmpty()))
@@ -381,7 +385,7 @@ int String::match(String lookingIn, String lookingFor)
 
 //ignore this
 
-String& String::operator = (const String& toAssign)
+String& String::operator= (const String& toAssign)
 {
 	this->set(toAssign);
 	return *this;
